@@ -103,7 +103,7 @@ const SpotSelector = ({ navSpots, spotCats, value, onChange, onSelectGroup, plac
         <div style={{ padding: "10px 10px 6px" }}>
           <div style={{ position: "relative" }}>
             <span style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", display: "flex", color: T.txD, pointerEvents: "none" }}>{IC.search}</span>
-            <input value={q} onChange={e => { setQ(e.target.value); setOpenCat(null); }} placeholder="建物名を検索..." autoFocus style={{ width: "100%", padding: "9px 10px 9px 34px", borderRadius: 10, border: `1px solid ${T.bd}`, background: T.bg3, color: T.txH, fontSize: 13, outline: "none", boxSizing: "border-box" }} />
+            <input value={q} onChange={e => { setQ(e.target.value); setOpenCat(null); }} placeholder="建物名を検索..." autoFocus style={{ width: "100%", padding: "9px 10px 9px 34px", borderRadius: 10, border: `1px solid ${T.bd}`, background: T.bg3, color: T.txH, fontSize: 16, outline: "none", boxSizing: "border-box" }} />
           </div>
         </div>
         <div style={{ maxHeight: 280, overflowY: "auto", padding: "0 6px 6px" }}>
@@ -652,7 +652,7 @@ export default function NavigationView({ campusData }) {
       <div style={{ padding: "10px 10px 6px" }}>
         <div style={{ position: "relative" }}>
           <span style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", display: "flex", color: T.txD, pointerEvents: "none" }}>{IC.search}</span>
-          <input value={searchQ} onChange={e => setSearchQ(e.target.value)} placeholder="スポットを検索..." autoFocus style={{ width: "100%", padding: "11px 10px 11px 34px", borderRadius: 10, border: `1px solid ${T.bd}`, background: T.bg3, color: T.txH, fontSize: 14, outline: "none", boxSizing: "border-box" }} />
+          <input value={searchQ} onChange={e => setSearchQ(e.target.value)} placeholder="スポットを検索..." autoFocus style={{ width: "100%", padding: "11px 10px 11px 34px", borderRadius: 10, border: `1px solid ${T.bd}`, background: T.bg3, color: T.txH, fontSize: 16, outline: "none", boxSizing: "border-box" }} />
         </div>
       </div>
       <div style={{ maxHeight: 320, overflowY: "auto", padding: "0 6px 6px" }}>
