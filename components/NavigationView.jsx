@@ -623,7 +623,7 @@ export default function NavigationView({ campusData }) {
   const [searchQ, setSearchQ] = useState("");
   const [openCatInline, setOpenCatInline] = useState(null);
 
-  if (!leafletReady) return <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", background: T.bg, color: T.txD, fontFamily: "'Inter',sans-serif" }}>マップを読み込み中...</div>;
+  if (!leafletReady) return <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "100dvh", background: T.bg, color: T.txD, fontFamily: "'Inter',sans-serif" }}>マップを読み込み中...</div>;
 
   const tipStyle = `.nav-tip{background:${T.bg2}!important;color:${T.txH}!important;border:1px solid ${T.bdL}!important;border-radius:8px!important;font-size:11px!important;font-weight:600!important;padding:4px 10px!important;box-shadow:0 4px 16px rgba(0,0,0,.45)!important;font-family:inherit!important}.nav-tip::before{display:none!important}`;
 
@@ -889,7 +889,7 @@ export default function NavigationView({ campusData }) {
     </div>
   </div>;
 
-  return <div style={{ flex: 1, position: "relative", overflow: "hidden", width: "100%", height: "100vh", fontFamily: "'Inter',sans-serif" }}>
+  return <div style={{ position: "fixed", inset: 0, overflow: "hidden", fontFamily: "'Inter',sans-serif" }}>
     <style>{tipStyle}{`
 @keyframes navSlideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes navPinPop{0%{opacity:0;transform:scale(.3) translateY(8px)}60%{opacity:1;transform:scale(1.08) translateY(-1px)}100%{opacity:1;transform:scale(1) translateY(0)}}
