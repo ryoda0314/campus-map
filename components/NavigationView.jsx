@@ -693,6 +693,16 @@ export default function NavigationView({ campusData }) {
           </div>)}
           {searchInlineResults.groups.length === 0 && searchInlineGrouped.length === 0 && <div style={{ padding: "16px 0", fontSize: 12, color: T.txD, textAlign: "center" }}>見つかりません</div>}
         </> : <>
+          {quickSpots && quickSpots.length > 0 && <>
+            <div style={{ fontSize: 10, fontWeight: 700, color: T.txD, letterSpacing: .5, padding: "8px 10px 3px" }}>よく使う</div>
+            {quickSpots.map(s => (
+              <button key={s.id} onClick={() => { setDestination(s.id); setSpotGroup(null); setNavPhase("detail"); setSearchQ(""); if (mapInst.current) mapInst.current.flyTo([s.lat, s.lng], 18, { duration: .5 }); }} style={{ width: "100%", display: "flex", alignItems: "center", gap: 8, padding: "7px 10px", borderRadius: 8, border: "none", background: "transparent", cursor: "pointer", textAlign: "left" }} onMouseEnter={e => e.currentTarget.style.background = T.hover} onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
+                <div style={{ width: 20, height: 20, borderRadius: 5, background: `${s.col}40`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><span style={{ fontSize: 7, fontWeight: 700, color: s.col }}>{s.short}</span></div>
+                <span style={{ fontSize: 12, fontWeight: 400, color: T.tx, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", flex: 1 }}>{s.label}</span>
+              </button>
+            ))}
+            <div style={{ height: 1, background: T.bd, margin: "6px 10px" }} />
+          </>}
           {SPOT_CATS.filter(cat => navSpots.some(s => s.cat === cat.id)).map(cat => {
             const catSpots = navSpots.filter(s => s.cat === cat.id && !isGroupableSpot(s));
             const catGroups = SPOT_GROUPS.filter(g => navSpots.some(s => s.cat === cat.id && s.id.startsWith(g.prefix + "_")));
