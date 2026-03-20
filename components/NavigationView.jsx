@@ -169,7 +169,7 @@ const SpotSelector = ({ navSpots, spotCats, value, onChange, onSelectGroup, plac
 
 /* ── NavigationView ── */
 export default function NavigationView({ campusData }) {
-  const { CAMPUS, SPOTS, SPOT_CATS, ENTRANCES, WAYPOINTS, EDGES, AREAS } = campusData;
+  const { CAMPUS, SPOTS, SPOT_CATS, ENTRANCES, WAYPOINTS, EDGES, AREAS, QUICK_ACCESS } = campusData;
   const navSpots = useMemo(() => getNavSpots(SPOTS), [SPOTS]);
   const leafletReady = useLeaflet();
   const mapRef = useRef(null);
