@@ -27,11 +27,12 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/icon.svg" />
       </head>
-      <body style={{ margin: 0, background: "#1a1a1f" }}>
+      <body style={{ margin: 0, background: "#1a1a1f", touchAction: "pan-x pan-y", overscrollBehavior: "none" }}>
+        <style dangerouslySetInnerHTML={{ __html: `html,body{touch-action:pan-x pan-y;overscroll-behavior:none;-webkit-text-size-adjust:100%}` }} />
         {children}
         <script
           dangerouslySetInnerHTML={{
-            __html: `if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'))}`,
+            __html: `if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'))}document.addEventListener('gesturestart',function(e){e.preventDefault()},{passive:false});document.addEventListener('gesturechange',function(e){e.preventDefault()},{passive:false});document.addEventListener('gestureend',function(e){e.preventDefault()},{passive:false});`,
           }}
         />
       </body>
