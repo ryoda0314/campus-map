@@ -75,7 +75,7 @@ const buildSearchResults = (spots) => {
 const NON_GEO_NAV = new Set(["suzu", "home_loc", "commute", "off_campus"]);
 
 /* ── SpotSelector (search-first, category tabs) ── */
-const SpotSelector = ({ navSpots, spotCats, value, onChange, onSelectGroup, placeholder, accent, onGps, gpsLoading }) => {
+const SpotSelector = ({ navSpots, spotCats, value, onChange, onSelectGroup, placeholder, accent, onGps, gpsLoading, quickSpots }) => {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
   const [openCat, setOpenCat] = useState(null);
@@ -153,6 +153,18 @@ const SpotSelector = ({ navSpots, spotCats, value, onChange, onSelectGroup, plac
               <div style={{ width: 20, height: 20, borderRadius: 5, background: "#4285f430", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{IC.tgt}</div>
               <span style={{ fontSize: 12, fontWeight: 500, color: "#4285f4" }}>{gpsLoading ? "取得中..." : "現在地"}</span>
             </button>}
+            {quickSpots && quickSpots.length > 0 && <>
+              <div style={{ fontSize: 10, fontWeight: 700, color: T.txD, letterSpacing: .5, padding: "8px 10px 3px" }}>よく使う</div>
+              {quickSpots.map(s => {
+                const on = s.id === value;
+                return <button key={s.id} onClick={() => { onChange(s.id); setOpen(false); }} style={{ width: "100%", display: "flex", alignItems: "center", gap: 8, padding: "7px 10px", borderRadius: 8, border: "none", background: on ? `${accent}18` : "transparent", cursor: "pointer", textAlign: "left" }} onMouseEnter={e => { if (!on) e.currentTarget.style.background = T.hover }} onMouseLeave={e => { if (!on) e.currentTarget.style.background = "transparent" }}>
+                  <div style={{ width: 20, height: 20, borderRadius: 5, background: on ? s.col : `${s.col}40`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><span style={{ fontSize: 7, fontWeight: 700, color: on ? "#fff" : s.col }}>{s.short}</span></div>
+                  <span style={{ fontSize: 12, fontWeight: on ? 600 : 400, color: on ? T.txH : T.tx, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", flex: 1 }}>{s.label}</span>
+                  {on && <span style={{ display: "flex", color: accent, flexShrink: 0 }}>{IC.chk}</span>}
+                </button>;
+              })}
+              <div style={{ height: 1, background: T.bd, margin: "6px 10px" }} />
+            </>}
             {spotCats.filter(cat => navSpots.some(s => s.cat === cat.id)).map(cat => {
               const count = navSpots.filter(s => s.cat === cat.id).length;
               return <button key={cat.id} onClick={() => setOpenCat(cat.id)} style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, padding: "10px 10px", borderRadius: 8, border: "none", background: "transparent", cursor: "pointer", textAlign: "left" }} onMouseEnter={e => e.currentTarget.style.background = T.hover} onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
@@ -171,6 +183,10 @@ const SpotSelector = ({ navSpots, spotCats, value, onChange, onSelectGroup, plac
 export default function NavigationView({ campusData }) {
   const { CAMPUS, SPOTS, SPOT_CATS, ENTRANCES, WAYPOINTS, EDGES, AREAS, QUICK_ACCESS } = campusData;
   const navSpots = useMemo(() => getNavSpots(SPOTS), [SPOTS]);
+  const quickSpots = useMemo(() => {
+    if (!QUICK_ACCESS || QUICK_ACCESS.length === 0) return [];
+    return QUICK_ACCESS.map(id => navSpots.find(s => s.id === id)).filter(Boolean);
+  }, [QUICK_ACCESS, navSpots]);
   const leafletReady = useLeaflet();
   const mapRef = useRef(null);
   const mapInst = useRef(null);
@@ -774,9 +790,9 @@ export default function NavigationView({ campusData }) {
         </div>
         <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
           <div style={{ borderBottom: `1px solid ${T.bd}` }}>
-            <SpotSelector navSpots={navSpots} spotCats={SPOT_CATS} value={origin} onChange={v => { setOrigin(v); setGpsOriginPos(null); setOriginFromGps(false); setSelectMode(null); }} placeholder="出発地を選択" accent="#34a853" onGps={getGpsOrigin} gpsLoading={gpsLoading} />
+            <SpotSelector navSpots={navSpots} spotCats={SPOT_CATS} value={origin} onChange={v => { setOrigin(v); setGpsOriginPos(null); setOriginFromGps(false); setSelectMode(null); }} placeholder="出発地を選択" accent="#34a853" onGps={getGpsOrigin} gpsLoading={gpsLoading} quickSpots={quickSpots} />
           </div>
-          <SpotSelector navSpots={navSpots} spotCats={SPOT_CATS} value={destination} onChange={v => { if (v) { setDestination(v); } else { setDestination(null); setOrigin(null); setNavPhase("search"); } }} placeholder="目的地を選択" accent={T.accent} />
+          <SpotSelector navSpots={navSpots} spotCats={SPOT_CATS} value={destination} onChange={v => { if (v) { setDestination(v); } else { setDestination(null); setOrigin(null); setNavPhase("search"); } }} placeholder="目的地を選択" accent={T.accent} quickSpots={quickSpots} />
         </div>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 4, flexShrink: 0, paddingLeft: 4 }}>
           <button onClick={getGpsOrigin} disabled={gpsLoading} style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 32, height: 32, borderRadius: "50%", border: `1px solid ${gpsPos ? "#4285f440" : T.bd}`, background: gpsPos ? "#4285f410" : "transparent", cursor: gpsLoading ? "wait" : "pointer", color: gpsPos ? "#4285f4" : T.txD, transition: "all .15s", opacity: gpsLoading ? 0.5 : 1 }} title="現在地を出発地に設定">
