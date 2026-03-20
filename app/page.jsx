@@ -36,19 +36,11 @@ export default function CampusSelectPage() {
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {campuses.map(c => (
-              <a
-                key={c.id}
-                href={`/${c.id}`}
-                style={{
-                  display: "flex", alignItems: "center", gap: 16,
-                  padding: "16px 20px", borderRadius: 12,
-                  background: T.bg2, border: `1px solid ${T.bd}`,
-                  textDecoration: "none", color: T.txH,
-                  transition: "all .15s",
-                }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = T.accent; e.currentTarget.style.background = T.bg3; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = T.bd; e.currentTarget.style.background = T.bg2; }}
-              >
+              <div key={c.id} style={{
+                display: "flex", alignItems: "center", gap: 16,
+                padding: "16px 20px", borderRadius: 12,
+                background: T.bg2, border: `1px solid ${T.bd}`,
+              }}>
                 <div style={{
                   width: 44, height: 44, borderRadius: 10, background: `${T.accent}18`,
                   display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
@@ -62,10 +54,31 @@ export default function CampusSelectPage() {
                   <div style={{ fontSize: 15, fontWeight: 700 }}>{c.shortName}</div>
                   <div style={{ fontSize: 11, color: T.txD, marginTop: 2 }}>{c.name}</div>
                 </div>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.txD} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="9 18 15 12 9 6" />
-                </svg>
-              </a>
+                <div style={{ display: "flex", gap: 8 }}>
+                  <a
+                    href={`/${c.id}/navi`}
+                    style={{
+                      padding: "8px 14px", borderRadius: 8,
+                      background: T.accent, color: "#fff",
+                      textDecoration: "none", fontSize: 12, fontWeight: 600,
+                      transition: "opacity .15s",
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.opacity = "0.85"; }}
+                    onMouseLeave={e => { e.currentTarget.style.opacity = "1"; }}
+                  >ナビ</a>
+                  <a
+                    href={`/${c.id}`}
+                    style={{
+                      padding: "8px 14px", borderRadius: 8,
+                      background: T.bg3, border: `1px solid ${T.bdL}`, color: T.tx,
+                      textDecoration: "none", fontSize: 12, fontWeight: 600,
+                      transition: "all .15s",
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.borderColor = T.accent; e.currentTarget.style.color = T.txH; }}
+                    onMouseLeave={e => { e.currentTarget.style.borderColor = T.bdL; e.currentTarget.style.color = T.tx; }}
+                  >編集</a>
+                </div>
+              </div>
             ))}
           </div>
         </div>
